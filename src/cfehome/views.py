@@ -3,10 +3,12 @@ from visits.models import PageVisit
 
 def home_page_view(request, *args, **kwargs):
     queryset = PageVisit.objects.all()
+    page_qs = PageVisit.objects.filter(path=request.path)
     page_heading = 'Saas'
     context = {
         'page': page_heading,
-        'visits': queryset.count()
+        'page_visits': page_qs.count(),
+        'total_visits': queryset.count()
     }
-    PageVisit.objects.create(path=request.path, )
+    PageVisit.objects.create(path=request.path)
     return render(request, 'home.html', context)
